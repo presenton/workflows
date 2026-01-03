@@ -1,0 +1,902 @@
+{
+  "name": "Google Analytics Marketing Report",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -5440,
+        -208
+      ],
+      "id": "712a6803-94bc-485d-bfb2-5700119972cc",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-5.2",
+          "mode": "list",
+          "cachedResultName": "GPT-5.2"
+        },
+        "responses": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You need to generate outline for a marketing report based on given data. It'll be a presentation to make sure to separate it by slides and give content in markdown format."
+            },
+            {
+              "content": "=Weekly Users by Date: {{ JSON.stringify($node[\"Weekly Users by Date Limit\"]) }} \\n Weekly Users by Browser: {{ JSON.stringify($node[\"Weekly Users by Browser Limit\"]) }} \\n Weekly Users by Country: {{ JSON.stringify($node[\"Weekly Users by Country Limit\"]) }} \\n Weekly Users by City: {{ JSON.stringify($node[\"Weekly Users by City Limit\"]) }} \\n Weekly Users by Source: {{ JSON.stringify($node[\"Weekly Users by Source Limit\"]) }} \\n "
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.1,
+      "position": [
+        -3936,
+        128
+      ],
+      "id": "23ee9213-9ce1-4c47-9f34-2c1128ca347a",
+      "name": "Message a model",
+      "credentials": {
+        "openAiApi": {
+          "id": "nWzxHci5qUNt0SqX",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "propertyId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "482135353"
+        },
+        "metricsGA4": {
+          "metricValues": [
+            {}
+          ]
+        },
+        "dimensionsGA4": {
+          "dimensionValues": [
+            {
+              "listName": "browser"
+            }
+          ]
+        },
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.googleAnalytics",
+      "typeVersion": 2,
+      "position": [
+        -3872,
+        -208
+      ],
+      "id": "78eb83b7-9848-4d30-a9ea-ade4ee6d2f90",
+      "name": "Weekly Users by Browser",
+      "credentials": {
+        "googleAnalyticsOAuth2": {
+          "id": "TMi5b5OkPgRnEkWl",
+          "name": "Google Analytics account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "propertyId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "482135353"
+        },
+        "metricsGA4": {
+          "metricValues": [
+            {}
+          ]
+        },
+        "dimensionsGA4": {
+          "dimensionValues": [
+            {
+              "listName": "city"
+            }
+          ]
+        },
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.googleAnalytics",
+      "typeVersion": 2,
+      "position": [
+        -3200,
+        -208
+      ],
+      "id": "9a0cb0ae-945f-41b0-b046-226fc3d3bb13",
+      "name": "Weekly Users by City",
+      "retryOnFail": false,
+      "credentials": {
+        "googleAnalyticsOAuth2": {
+          "id": "TMi5b5OkPgRnEkWl",
+          "name": "Google Analytics account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "propertyId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "482135353"
+        },
+        "metricsGA4": {
+          "metricValues": [
+            {}
+          ]
+        },
+        "dimensionsGA4": {
+          "dimensionValues": [
+            {
+              "listName": "country"
+            }
+          ]
+        },
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.googleAnalytics",
+      "typeVersion": 2,
+      "position": [
+        -5280,
+        128
+      ],
+      "id": "374f10a9-99a5-46ef-9130-bf9489b7ad7a",
+      "name": "Weekly Users by Country",
+      "credentials": {
+        "googleAnalyticsOAuth2": {
+          "id": "TMi5b5OkPgRnEkWl",
+          "name": "Google Analytics account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "propertyId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "482135353"
+        },
+        "metricsGA4": {
+          "metricValues": [
+            {}
+          ]
+        },
+        "dimensionsGA4": {
+          "dimensionValues": [
+            {
+              "listName": "sourceMedium"
+            }
+          ]
+        },
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.googleAnalytics",
+      "typeVersion": 2,
+      "position": [
+        -4608,
+        128
+      ],
+      "id": "f13bc396-252c-4b09-977c-a606d9883728",
+      "name": "Weekly Users by Source",
+      "credentials": {
+        "googleAnalyticsOAuth2": {
+          "id": "TMi5b5OkPgRnEkWl",
+          "name": "Google Analytics account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "propertyId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "482135353"
+        },
+        "metricsGA4": {
+          "metricValues": [
+            {}
+          ]
+        },
+        "dimensionsGA4": {
+          "dimensionValues": [
+            {
+              "listName": "deviceCategory"
+            }
+          ]
+        },
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.googleAnalytics",
+      "typeVersion": 2,
+      "position": [
+        -5216,
+        -208
+      ],
+      "id": "dc9b4d54-40fb-4baa-aaf1-fd82a424f785",
+      "name": "Weekly Users by Device",
+      "credentials": {
+        "googleAnalyticsOAuth2": {
+          "id": "TMi5b5OkPgRnEkWl",
+          "name": "Google Analytics account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "propertyId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "482135353"
+        },
+        "metricsGA4": {
+          "metricValues": [
+            {}
+          ]
+        },
+        "dimensionsGA4": {
+          "dimensionValues": [
+            {}
+          ]
+        },
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.googleAnalytics",
+      "typeVersion": 2,
+      "position": [
+        -4544,
+        -208
+      ],
+      "id": "2b91329e-e24b-4819-82cb-c933bffa0f44",
+      "name": "Weekly Users by Date",
+      "credentials": {
+        "googleAnalyticsOAuth2": {
+          "id": "TMi5b5OkPgRnEkWl",
+          "name": "Google Analytics account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6aa65cb7-cb8a-4e0e-80c2-b99b7cf94cb7",
+              "name": "output[0].content[0].text",
+              "value": "={{ $json.output[0].content[0].text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -3584,
+        128
+      ],
+      "id": "ddaf49f7-fd8a-4af9-864d-a70a1b8f1dd0",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "content": "={{ $json.output[0].content[0].text }}",
+        "noOfSlides": 7,
+        "advancedOptions": {}
+      },
+      "type": "n8n-nodes-presenton.presenton",
+      "typeVersion": 1,
+      "position": [
+        -3360,
+        128
+      ],
+      "id": "ac20afc1-989a-48f6-a65c-f42254470e53",
+      "name": "presenton",
+      "credentials": {
+        "presentonApi": {
+          "id": "5JHTJ6NPrcw2KeEP",
+          "name": "Presenton account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "checkStatus",
+        "taskId": "={{ $json.id }}"
+      },
+      "type": "n8n-nodes-presenton.presenton",
+      "typeVersion": 1,
+      "position": [
+        -3136,
+        128
+      ],
+      "id": "9ab0fd12-6be5-4510-80f3-cd2bac0acd6a",
+      "name": "presenton1",
+      "credentials": {
+        "presentonApi": {
+          "id": "5JHTJ6NPrcw2KeEP",
+          "name": "Presenton account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "be5c8c09-ad69-47ac-a3a3-fafccc8c140e",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "pending",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -2912,
+        64
+      ],
+      "id": "e3eb9ef3-f64a-4346-b4da-f9845abf9934",
+      "name": "If"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -2688,
+        224
+      ],
+      "id": "19969c4f-5a50-4cee-a14a-656055868fe0",
+      "name": "Wait",
+      "webhookId": "2f6021f5-2440-4761-802b-7da5535d7c1f"
+    },
+    {
+      "parameters": {
+        "maxItems": 20
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        -4992,
+        -208
+      ],
+      "id": "36abf8fa-f455-47ce-bfb6-ae977430fd69",
+      "name": "Weekly Users by Device Limit x"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "deviceCategory"
+            },
+            {
+              "fieldToAggregate": "totalUsers"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        -4768,
+        -208
+      ],
+      "id": "4251e409-fbb4-4ede-8e17-8d8995e2778f",
+      "name": "Weekly Users by Device Limit"
+    },
+    {
+      "parameters": {
+        "maxItems": 20
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        -4320,
+        -208
+      ],
+      "id": "fed37944-60f7-4d2f-81ba-3dac0f62cee7",
+      "name": "Weekly Users by Date Limit x"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "date"
+            },
+            {
+              "fieldToAggregate": "totalUsers"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        -4096,
+        -208
+      ],
+      "id": "3d9431cd-11ef-44b2-aee2-30f50777779b",
+      "name": "Weekly Users by Date Limit"
+    },
+    {
+      "parameters": {
+        "maxItems": 20
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        -3648,
+        -208
+      ],
+      "id": "ac44b561-070c-446d-bef9-3032fea1771c",
+      "name": "Weekly Users by Browser Limit x"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "browser"
+            },
+            {
+              "fieldToAggregate": "totalUsers"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        -3424,
+        -208
+      ],
+      "id": "6ca15021-a126-4ce0-89d1-4a03c7d28663",
+      "name": "Weekly Users by Browser Limit"
+    },
+    {
+      "parameters": {
+        "maxItems": 20
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        -2992,
+        -208
+      ],
+      "id": "7c45bdce-8eeb-4364-af3b-373d9b305ce4",
+      "name": "Weekly Users by City Limit x"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "city"
+            },
+            {
+              "fieldToAggregate": "totalUsers"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        -2768,
+        -208
+      ],
+      "id": "3b5baf08-f4b0-496c-b7b3-e27feaf69197",
+      "name": "Weekly Users by City Limit"
+    },
+    {
+      "parameters": {
+        "maxItems": 20
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        -5056,
+        128
+      ],
+      "id": "92b57061-a6d3-4f36-803b-d43ee75f0bc4",
+      "name": "Weekly Users by Country Limit x"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "country"
+            },
+            {
+              "fieldToAggregate": "totalUsers"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        -4832,
+        128
+      ],
+      "id": "e68ad02b-b18c-47c9-9f6e-1d60f54126c4",
+      "name": "Weekly Users by Country Limit"
+    },
+    {
+      "parameters": {
+        "maxItems": 20
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        -4384,
+        128
+      ],
+      "id": "00721ce1-a5f4-4768-a972-4cab3c07b947",
+      "name": "Weekly Users by Source Limit x"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "sourceMedium"
+            },
+            {
+              "fieldToAggregate": "totalUsers"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        -4160,
+        128
+      ],
+      "id": "0a60f75c-8811-4bdb-b86f-fb5934b32422",
+      "name": "Weekly Users by Source Limit"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.data.path }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -2736,
+        80
+      ],
+      "id": "8830f8aa-d313-4a09-93c3-ab823bffd1db",
+      "name": "HTTP Request"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Weekly Users by Device",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Weekly Users by Browser": {
+      "main": [
+        [
+          {
+            "node": "Weekly Users by Browser Limit x",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Weekly Users by Device": {
+      "main": [
+        [
+          {
+            "node": "Weekly Users by Device Limit x",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Weekly Users by City": {
+      "main": [
+        [
+          {
+            "node": "Weekly Users by City Limit x",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Weekly Users by Country": {
+      "main": [
+        [
+          {
+            "node": "Weekly Users by Country Limit x",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Weekly Users by Source": {
+      "main": [
+        [
+          {
+            "node": "Weekly Users by Source Limit x",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Weekly Users by Date": {
+      "main": [
+        [
+          {
+            "node": "Weekly Users by Date Limit x",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "presenton": {
+      "main": [
+        [
+          {
+            "node": "presenton1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "presenton1": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "presenton1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "presenton",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Weekly Users by Device Limit x": {
+      "main": [
+        [
+          {
+            "node": "Weekly Users by Device Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Weekly Users by Device Limit": {
+      "main": [
+        [
+          {
+            "node": "Weekly Users by Date",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Weekly Users by Date Limit x": {
+      "main": [
+        [
+          {
+            "node": "Weekly Users by Date Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Weekly Users by Date Limit": {
+      "main": [
+        [
+          {
+            "node": "Weekly Users by Browser",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Weekly Users by Browser Limit x": {
+      "main": [
+        [
+          {
+            "node": "Weekly Users by Browser Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Weekly Users by Browser Limit": {
+      "main": [
+        [
+          {
+            "node": "Weekly Users by City",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Weekly Users by City Limit x": {
+      "main": [
+        [
+          {
+            "node": "Weekly Users by City Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Weekly Users by City Limit": {
+      "main": [
+        [
+          {
+            "node": "Weekly Users by Country",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Weekly Users by Country Limit x": {
+      "main": [
+        [
+          {
+            "node": "Weekly Users by Country Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Weekly Users by Country Limit": {
+      "main": [
+        [
+          {
+            "node": "Weekly Users by Source",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Weekly Users by Source Limit x": {
+      "main": [
+        [
+          {
+            "node": "Weekly Users by Source Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Weekly Users by Source Limit": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "dd1a8e44-78cd-4f7b-bed8-83e12fff8796",
+  "meta": {
+    "instanceId": "51cc31aba538e19e0a03126b4497373a10f0ead37be5eec0768ff2eb2b552ff4"
+  },
+  "id": "pm8RQoqRH3InXboZ",
+  "tags": []
+}
