@@ -1,0 +1,307 @@
+{
+  "name": "Sales Report from Google Sheets",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        -16
+      ],
+      "id": "950b9894-1b41-4603-889c-0b36e657c5e8",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1cB6w1ynEAeimTHaGWRiibJCViwAJ1ZZZrA8B-YImcwM",
+          "mode": "list",
+          "cachedResultName": "IC-Weekly-Sales-Activity-Report-11538",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1cB6w1ynEAeimTHaGWRiibJCViwAJ1ZZZrA8B-YImcwM/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 857759266,
+          "mode": "list",
+          "cachedResultName": "Weekly Sales Activity Report",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1cB6w1ynEAeimTHaGWRiibJCViwAJ1ZZZrA8B-YImcwM/edit#gid=857759266"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        224,
+        -16
+      ],
+      "id": "ff03a52b-f9e1-4438-a1cb-0a4f494f4da5",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "2pwAabQURMevKugX",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        448,
+        -16
+      ],
+      "id": "aa380e19-af52-4a9f-a48c-e8eaf48058ca",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-5.2",
+          "mode": "list",
+          "cachedResultName": "GPT-5.2"
+        },
+        "responses": {
+          "values": [
+            {
+              "content": "=Analyze this sales data and then create content for weekly sales report presentation for the executive with data, text and analysis in markdown format.\n\nData:  {{ JSON.stringify($json.data) }}"
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.1,
+      "position": [
+        672,
+        -16
+      ],
+      "id": "9c85e991-52e6-4bd3-b436-c9666cad58a0",
+      "name": "Message a model",
+      "credentials": {
+        "openAiApi": {
+          "id": "nWzxHci5qUNt0SqX",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "={{ $json.output[0].content[0].text }}",
+        "advancedOptions": {
+          "instructions": "Use charts, metrics and tables"
+        }
+      },
+      "type": "n8n-nodes-presenton.presenton",
+      "typeVersion": 1,
+      "position": [
+        1024,
+        -16
+      ],
+      "id": "3a5fa8ff-6a1d-4635-aed4-9ccbbdc50f0e",
+      "name": "presenton",
+      "credentials": {
+        "presentonApi": {
+          "id": "5JHTJ6NPrcw2KeEP",
+          "name": "Presenton account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "0d26cc6d-3f21-4c44-81cd-92a427471b7c",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "pending",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1472,
+        -80
+      ],
+      "id": "ea30a4c6-c1a3-44ab-ba6c-91ac2ae56ca4",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "operation": "checkStatus",
+        "taskId": "={{ $json.id }}"
+      },
+      "type": "n8n-nodes-presenton.presenton",
+      "typeVersion": 1,
+      "position": [
+        1248,
+        -16
+      ],
+      "id": "ac524ce7-2d06-4a05-ae7f-416712babf38",
+      "name": "presenton1",
+      "credentials": {
+        "presentonApi": {
+          "id": "5JHTJ6NPrcw2KeEP",
+          "name": "Presenton account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1696,
+        96
+      ],
+      "id": "34db6a9d-93d9-4362-9aa0-f39e9bc8e740",
+      "name": "Wait",
+      "webhookId": "98df5b62-f022-4eda-9a5d-07e71c5d0994"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.data.path }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1696,
+        -128
+      ],
+      "id": "69b80e5e-33fe-4539-9df5-ae5978e38ba4",
+      "name": "HTTP Request"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "presenton",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "presenton": {
+      "main": [
+        [
+          {
+            "node": "presenton1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "presenton1": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "presenton1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "7379420d-eea7-41f1-b74c-6d6d7abf85c5",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "51cc31aba538e19e0a03126b4497373a10f0ead37be5eec0768ff2eb2b552ff4"
+  },
+  "id": "crNAFlqhHDTiZlwM",
+  "tags": []
+}
