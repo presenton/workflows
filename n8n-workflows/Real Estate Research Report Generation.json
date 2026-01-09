@@ -1,0 +1,336 @@
+{
+  "name": "Real Estate Research Report Generation",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -208,
+        400
+      ],
+      "id": "01709c9a-18d0-4ec0-92ae-e78050060df3",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "content": "={{ $json.output.content }}",
+        "noOfSlides": null,
+        "advancedOptions": {
+          "instructions": "based on given information, create a real estate report for client for the options. Use image  in presentation as given in the content. After first introductory slide each slide should have 1  same layout **slide explaining it in same order, price, location, amenities in bullet. at top there should be description and on the left an image.** - use exactly this layout  highlight the price. "
+        }
+      },
+      "type": "n8n-nodes-presenton.presenton",
+      "typeVersion": 1,
+      "position": [
+        880,
+        384
+      ],
+      "id": "3a7542b9-8a19-46ea-b1d3-90fd89634dd8",
+      "name": "presenton",
+      "credentials": {
+        "presentonApi": {
+          "id": "5JHTJ6NPrcw2KeEP",
+          "name": "Presenton account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "checkStatus",
+        "taskId": "={{ $json.id }}"
+      },
+      "type": "n8n-nodes-presenton.presenton",
+      "typeVersion": 1,
+      "position": [
+        1104,
+        384
+      ],
+      "id": "3a35f1d4-9af4-4e21-8a91-cdb7edaf2790",
+      "name": "presenton1",
+      "credentials": {
+        "presentonApi": {
+          "id": "5JHTJ6NPrcw2KeEP",
+          "name": "Presenton account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "8cc2e836-7107-41a8-9c97-3373c09a2a78",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "pending",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1360,
+        384
+      ],
+      "id": "f3b07fdc-bd85-4e97-bcfa-8182538af43b",
+      "name": "If"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1568,
+        592
+      ],
+      "id": "3b9a89a7-2d07-4eca-b477-72cb48e8d9fc",
+      "name": "Wait",
+      "webhookId": "27323989-71dc-4d59-b417-7eccc1598627"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.data.path }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1792,
+        368
+      ],
+      "id": "c3b80f0c-8338-45dc-b9f6-adcd5fe67ce5",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "resource": "research",
+        "instructions": "Find 10 properties in new york under $1M",
+        "additionalOptions": {},
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-exa-official.exa",
+      "typeVersion": 1,
+      "position": [
+        48,
+        400
+      ],
+      "id": "e00bf6ed-b125-443e-b681-db21fe0a0978",
+      "name": "Create a research task",
+      "credentials": {
+        "exaApi": {
+          "id": "CUXDOmU4XWaiOL0O",
+          "name": "Exa account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "research",
+        "operation": "getTask",
+        "researchId": "={{ $json.researchId }}",
+        "queryOptions": {},
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-exa-official.exa",
+      "typeVersion": 1,
+      "position": [
+        272,
+        400
+      ],
+      "id": "d949ae68-fc6a-4e8d-a681-253c9cd56cdc",
+      "name": "Get a research task",
+      "credentials": {
+        "exaApi": {
+          "id": "CUXDOmU4XWaiOL0O",
+          "name": "Exa account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "26adfcd9-666e-4a71-b330-09fdc8116246",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "completed",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        496,
+        400
+      ],
+      "id": "95c2909f-6d19-439c-bddf-314b4c00724b",
+      "name": "If1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        656,
+        624
+      ],
+      "id": "de726d7b-0299-4e4c-96ce-b6c422b906a4",
+      "name": "Wait1",
+      "webhookId": "b4eb837d-c98f-48cf-bd86-1b2eb2db18bd"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Create a research task",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "presenton": {
+      "main": [
+        [
+          {
+            "node": "presenton1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "presenton1": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "presenton1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a research task": {
+      "main": [
+        [
+          {
+            "node": "Get a research task",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a research task": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "presenton",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "Get a research task",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "6c3ec127-038f-45c0-8314-8d303e80d653",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "51cc31aba538e19e0a03126b4497373a10f0ead37be5eec0768ff2eb2b552ff4"
+  },
+  "id": "jdxKm0L4i21IPy2i",
+  "tags": []
+}
